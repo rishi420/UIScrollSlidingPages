@@ -19,20 +19,20 @@
     return self;
 }
 
--(void)drawRect:(CGRect)rect
-{
-    CGContextRef ctx = UIGraphicsGetCurrentContext();
-    
-    CGContextClearRect(ctx, rect);
-    
-    CGContextBeginPath(ctx);
-    CGContextMoveToPoint   (ctx, CGRectGetMinX(rect), CGRectGetMinY(rect));  // top left
-    CGContextAddLineToPoint(ctx, CGRectGetMaxX(rect), CGRectGetMinY(rect));  // top right
-    CGContextAddLineToPoint(ctx, CGRectGetMidX(rect), CGRectGetMaxY(rect));  // mid bottom
-    CGContextClosePath(ctx);
-    
-    CGContextSetRGBFillColor(ctx, 0, 0, 0, 1);
-    CGContextFillPath(ctx);
-}
+//-(void)drawRect:(CGRect)rect
+//{
+//    CGContextRef ctx = UIGraphicsGetCurrentContext();
+//    
+//    CGContextClearRect(ctx, rect);
+//    
+//    CGContextBeginPath(ctx);
+//    CGContextMoveToPoint   (ctx, CGRectGetMinX(rect), CGRectGetMinY(rect));  // top left
+//    CGContextAddLineToPoint(ctx, CGRectGetMaxX(rect), CGRectGetMinY(rect));  // top right
+//    CGContextAddLineToPoint(ctx, CGRectGetMidX(rect), CGRectGetMaxY(rect));  // mid bottom
+//    CGContextClosePath(ctx);
+//    
+//    CGContextSetRGBFillColor(ctx, 0, 0, 0, 1);
+//    CGContextFillPath(ctx);
+//}
 
 @end

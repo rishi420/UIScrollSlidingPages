@@ -33,6 +33,7 @@
 		9F9B9BA117037C0B00CD45B4 /* TTScrollSlidingPagesController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9F9B9BA017037C0B00CD45B4 /* TTScrollSlidingPagesController.m */; };
 		9F9B9BA51703836D00CD45B4 /* TTSlidingPage.m in Sources */ = {isa = PBXBuildFile; fileRef = 9F9B9BA41703836D00CD45B4 /* TTSlidingPage.m */; };
 		9FFDC5CC1722EEA1002A5689 /* TTScrollViewWrapper.m in Sources */ = {isa = PBXBuildFile; fileRef = 9FFDC5CB1722EEA1002A5689 /* TTScrollViewWrapper.m */; };
+		B0FE880517C339EA009D6950 /* bar_selected.png in Resources */ = {isa = PBXBuildFile; fileRef = B0FE880417C339EA009D6950 /* bar_selected.png */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -76,6 +77,7 @@
 		9F9B9BA7170387BE00CD45B4 /* TTSlidingPagesDataSource.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = TTSlidingPagesDataSource.h; sourceTree = "<group>"; };
 		9FFDC5CA1722EEA1002A5689 /* TTScrollViewWrapper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TTScrollViewWrapper.h; sourceTree = "<group>"; };
 		9FFDC5CB1722EEA1002A5689 /* TTScrollViewWrapper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TTScrollViewWrapper.m; sourceTree = "<group>"; };
+		B0FE880417C339EA009D6950 /* bar_selected.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = bar_selected.png; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -113,6 +115,7 @@
 		9F2035E9170648E600438E50 /* Images */ = {
 			isa = PBXGroup;
 			children = (
+				B0FE880417C339EA009D6950 /* bar_selected.png */,
 				9F2035EA170648E600438E50 /* about-tomthorpelogo.png */,
 			);
 			path = Images;
@@ -291,6 +294,7 @@
 				9F2035E71706475B00438E50 /* diagmonds_@2X.png in Resources */,
 				9F2035E81706475B00438E50 /* readme.txt in Resources */,
 				9F2035EB170648E600438E50 /* about-tomthorpelogo.png in Resources */,
+				B0FE880517C339EA009D6950 /* bar_selected.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

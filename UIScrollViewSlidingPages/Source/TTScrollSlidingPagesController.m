@@ -35,6 +35,8 @@
 #import "TTBlackTriangle.h"
 #import "TTScrollViewWrapper.h"
 
+#define TAG_BAR_SELECTED_IMAGE 420
+
 @interface TTScrollSlidingPagesController ()
 
 @end
@@ -104,10 +106,18 @@
         
         //set up the top scroller (for the nav titles to go in) - it is one frame wide, but has clipToBounds turned off to enable you to see the next and previous items in the scroller. We wrap it in an outer uiview so that the background colour can be set on that and span the entire view (because the width of the topScrollView is only one frame wide and centered).
         topScrollView = [[UIScrollView alloc] initWithFrame:CGRectMake(0, 0, self.titleScrollerItemWidth, self.titleScrollerHeight)];
-        topScrollView.center = CGPointMake(self.view.center.x, topScrollView.center.y); //center it horizontally
+        
         topScrollView.pagingEnabled = YES;
         topScrollView.clipsToBounds = NO;
-        topScrollView.autoresizingMask = UIViewAutoresizingFlexibleLeftMargin | UIViewAutoresizingFlexibleRightMargin;
+        
+        if (_fixedTopView) {
+            topScrollView.autoresizingMask = UIViewAutoresizingFlexibleRightMargin;
+            topScrollView.scrollEnabled = NO;
+        } else {
+            topScrollView.center = CGPointMake(self.view.center.x, topScrollView.center.y); //center it horizontally
+            topScrollView.autoresizingMask = UIViewAutoresizingFlexibleLeftMargin | UIViewAutoresizingFlexibleRightMargin;
+        }
+        
         topScrollView.showsVerticalScrollIndicator = NO;
         topScrollView.showsHorizontalScrollIndicator = NO;
         topScrollView.directionalLockEnabled = YES;
@@ -234,6 +244,7 @@
             topItem = (UIView *)label;
         }
         topItem.frame = CGRectMake(nextTopScrollerXPosition, 0, topScrollView.frame.size.width, topScrollView.frame.size.height);
+        topItem.tag = i;
         [topScrollView addSubview:topItem];
         nextTopScrollerXPosition = nextTopScrollerXPosition + topItem.frame.size.width;
         
@@ -370,6 +381,8 @@
     if (!self.disableUIPageControl){
         pageControl.currentPage = page;
     }
+    
+    [self setHighlightedTitleColorForPage:page];
 }
 
 
@@ -387,6 +400,8 @@
     
     //find out what page in the topscroller would be at that x location
     int page = [self getTopScrollViewPageForXPosition:point.x];
+    
+    NSLog(@"topScrollViewTapped currentPage = %d", page);
     
     //if not already on the page and the page is within the bounds of the pages we have, scroll to the page!
     if ([self getCurrentDisplayedPage] != page && page < [bottomScrollView.subviews count]){
@@ -493,6 +508,11 @@
         bottomScrollView.delegate = self;
     }
     else if (scrollView == bottomScrollView){
+        
+        
+        if (_fixedTopView) {
+            return;
+        }
         //translate the bottom scroll to the top scroll. The bottom scroll items can in theory be different widths so it's a bit more complicated.
         
         //get the x position of the page in the top scroller
@@ -514,8 +534,13 @@
     
 }
 
-- (void)scrollViewDidEndDecelerating:(UIScrollView *)scrollView{
+- (void)scrollViewDidEndDecelerating:(UIScrollView *)scrollView
+{
     int currentPage = [self getCurrentDisplayedPage];
+    
+    NSLog(@"scrollViewDidEndDecelerating currentPage = %d", currentPage);
+    
+    [self setHighlightedTitleColorForPage:currentPage];
     
     //store the page you were on so if you have a rotate event, or you come back to this view you know what page to start at. (for example from a navigation controller), the viewDidLayoutSubviews method will know which page to navigate to (for example if the screen was portrait when you left, then you changed to landscape, and navigate back, then viewDidLayoutSubviews will need to change all the sizes of the views, but still know what page to set the offset to)
     currentPageBeforeRotation = [self getCurrentDisplayedPage];
@@ -595,7 +620,34 @@
     _disableUIPageControl = disableUIPageControl;
 }
 
+-(void)setFixedTopView:(BOOL)fixedTopView {
+    _fixedTopView = fixedTopView;
+}
 
-
+- (void)setHighlightedTitleColorForPage:(int)pageNumber
+{
+    if (!self.selectedBarImage) {
+        return;
+    }
+    
+    for (UIView *view in topScrollView.subviews) {
+        if ([view isKindOfClass:[UILabel class]]) {
+            UILabel *label = (UILabel *)view;
+            
+            [[label viewWithTag:TAG_BAR_SELECTED_IMAGE] removeFromSuperview];
+            
+            if (view.tag == pageNumber) {
+                CGRect frame = CGRectMake(0, label.frame.size.height - 3, label.frame.size.width, 3);
+                UIImageView *imageView = [[UIImageView alloc] initWithFrame:frame];
+                imageView.image = self.selectedBarImage;
+                imageView.tag = TAG_BAR_SELECTED_IMAGE;
+                [label addSubview:imageView];
+                label.textColor = (self.titleScrollerSelectedTextColour)? self.titleScrollerSelectedTextColour :self.titleScrollerTextColour;
+            } else {
+                label.textColor = self.titleScrollerTextColour;
+            }
+        }
+    }
+}
 
 @end

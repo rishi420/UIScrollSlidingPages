@@ -34,19 +34,21 @@
     
     //initial setup of the TTScrollSlidingPagesController. 
     self.slider = [[TTScrollSlidingPagesController alloc] init];
-
-
     
     //set properties to customiser the slider. Make sure you set these BEFORE you access any other properties on the slider, such as the view or the datasource. Best to do it immediately after calling the init method.
     //slider.titleScrollerHidden = YES;
     //slider.titleScrollerHeight = 100;
-    //slider.titleScrollerItemWidth=60;
-    //slider.titleScrollerBackgroundColour = [UIColor darkGrayColor];
-    //slider.disableTitleScrollerShadow = YES;
-    //slider.disableUIPageControl = YES;
-    //slider.initialPageNumber = 1;
+    self.slider.titleScrollerItemWidth = self.view.frame.size.width / 2;
+    //self.slider.titleScrollerBackgroundColour = [UIColor darkGrayColor];
+    self.slider.disableTitleScrollerShadow = YES;
+    self.slider.disableUIPageControl = YES;
+    //self.slider.titleScrollerTextColour = [UIColor grayColor];
+    //self.slider.initialPageNumber = 1;
     //slider.pagingEnabled = NO;
-    //slider.zoomOutAnimationDisabled = YES;
+    //self.slider.zoomOutAnimationDisabled = YES;
+    self.slider.fixedTopView = YES;
+    //self.slider.titleScrollerSelectedTextColour = [UIColor whiteColor];
+    self.slider.selectedBarImage = [UIImage imageNamed:@"bar_selected"];
     
     //set the datasource.
     self.slider.dataSource = self;
@@ -67,10 +69,11 @@
 
 #pragma mark TTSlidingPagesDataSource methods
 -(int)numberOfPagesForSlidingPagesViewController:(TTScrollSlidingPagesController *)source{
-    return 7; //just return 7 pages as an example
+    return 2; //just return 7 pages as an example
 }
 
 -(TTSlidingPage *)pageForSlidingPagesViewController:(TTScrollSlidingPagesController*)source atIndex:(int)index{
+    
     UIViewController *viewController;
     if (index % 2 == 0){ //just an example, alternating views between one example table view and another.
         viewController = [[TabOneViewController alloc] init];
@@ -85,7 +88,8 @@
     TTSlidingPageTitle *title;
     if (index == 0){
         //use a image as the header for the first page
-        title= [[TTSlidingPageTitle alloc] initWithHeaderImage:[UIImage imageNamed:@"about-tomthorpelogo.png"]];
+        //title= [[TTSlidingPageTitle alloc] initWithHeaderImage:[UIImage imageNamed:@"about-tomthorpelogo.png"]];
+        title = [[TTSlidingPageTitle alloc] initWithHeaderText:@"Page 1"];
     } else {
         //all other pages just use a simple text header
         switch (index) {

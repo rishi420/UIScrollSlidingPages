@@ -105,5 +105,8 @@
 @property (nonatomic) bool zoomOutAnimationDisabled;
 
 
+@property (nonatomic) BOOL fixedTopView;
+@property (nonatomic, strong) UIColor *titleScrollerSelectedTextColour;
+@property (nonatomic, strong) UIImage *selectedBarImage;
 
 @end
