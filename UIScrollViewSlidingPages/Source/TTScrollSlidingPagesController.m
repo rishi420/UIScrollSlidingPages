@@ -94,7 +94,7 @@
         [self.view addSubview:pageControl];
         nextYPosition += pageViewHeight;
     }
-
+    
     TTBlackTriangle *triangle;
     if (!self.titleScrollerHidden){
         //add a triangle view to point to the currently selected page from the header
@@ -110,7 +110,7 @@
         topScrollView.pagingEnabled = YES;
         topScrollView.clipsToBounds = NO;
         
-        if (_fixedTopView) {
+        if (self.fixedTopView) {
             topScrollView.autoresizingMask = UIViewAutoresizingFlexibleRightMargin;
             topScrollView.scrollEnabled = NO;
         } else {
@@ -139,8 +139,8 @@
         [self.view addSubview:topScrollViewWrapper]; //put the wrapper in this view.
         nextYPosition += self.titleScrollerHeight;
     }
-        
-        
+    
+    
     //set up the bottom scroller (for the content to go in)
     bottomScrollView = [[UIScrollView alloc] initWithFrame:CGRectMake(0, nextYPosition, self.view.frame.size.width, self.view.frame.size.height-nextYPosition)];
     bottomScrollView.pagingEnabled = self.pagingEnabled;
@@ -372,7 +372,7 @@
     //scroll to the page
     [bottomScrollView setContentOffset: CGPointMake([self getXPositionOfPage:page],0) animated:animated];
     
-    if (!animated){
+    if (!animated && !self.fixedTopView){
         //if the scroll is not animated, we also need to move the topScrollView - we don't want (if it's animated, it'll call the scrollViewDidScroll delegate which keeps everything in sync, so calling it twice would mess things up).
         [topScrollView setContentOffset: CGPointMake(page * topScrollView.frame.size.width, 0) animated:animated];
     }
@@ -510,7 +510,7 @@
     else if (scrollView == bottomScrollView){
         
         
-        if (_fixedTopView) {
+        if (self.fixedTopView) {
             return;
         }
         //translate the bottom scroll to the top scroll. The bottom scroll items can in theory be different widths so it's a bit more complicated.
@@ -558,7 +558,7 @@
     }
 }
 
-#pragma mark UIPageControl page changed listener we set up on it 
+#pragma mark UIPageControl page changed listener we set up on it
 -(void)pageControlChangedPage:(id)sender
 {
     //if not already on the page and the page is within the bounds of the pages we have, scroll to the page!
