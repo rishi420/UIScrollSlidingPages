@@ -52,7 +52,7 @@
 
 
 
-@property (nonatomic, strong) id<TTSlidingPagesDataSource> dataSource;
+@property (nonatomic, assign) id<TTSlidingPagesDataSource> dataSource;
 
 /** @property titleScrollerHidden
  *  @brief Whether the title scroller bar is hidden or not.
